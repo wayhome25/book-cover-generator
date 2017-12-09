@@ -21,7 +21,7 @@ ROOT = lambda *args: join(BASE_DIR, *args)
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@4!w+_k^6*ot&io8#jv*dmvva&p6vlc=eigiz^)4ifm8l^v9y3'
+SECRET_KEY = os.environ["ORLY_SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
