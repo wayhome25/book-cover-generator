@@ -1,5 +1,8 @@
 from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 
+from django.conf import settings
 from django.http.response import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -12,13 +15,24 @@ def index(request):
         form = CoverForm(request.POST)
         if form.is_valid():
             print(form.cleaned_data)
-            return redirect('cover:index')
     else:
         form = CoverForm()
     return render(request, 'cover/index.html', {'form': form})
 
 def image_generator(request):
-    im = Image.new('RGB', (256, 256), 'yellow')
-    response = HttpResponse(content_type='image/jpeg')
-    im.save(response, format='JPEG')
+    title = request.GET.get('title', '')
+    top_text = request.GET.get('top_text', '')
+    author = request.GET.get('author', '')
+
+    im = Image.new('RGB', (256, 256), 'white')
+    ttf_path = settings.ROOT('assets', 'fonts', 'NanumGothicCoding.ttf')  # get a font
+    fnt = ImageFont.truetype(ttf_path, 40)
+    d = ImageDraw.Draw(im)  # get a drawing context
+
+    d.text((10, 10), title, font=fnt, fill=(0, 255, 0, 255))
+    d.text((10, 60), top_text, font=fnt, fill=(0, 255, 0, 255))
+    d.text((10, 110), author, font=fnt, fill=(0, 255, 0, 255))
+
+    response = HttpResponse(content_type='image/png')
+    im.save(response, format='PNG')
     return response

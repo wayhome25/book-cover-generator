@@ -8,9 +8,10 @@
     </table>
     <input type="submit" value="Generate O RLY">
   </form>
+  {% if form.get_params %}
+  <img src="{% url 'cover:image_generator' %}?{{ form.get_params }}" alt="">
+    {{ form.get_params }}
+  {% endif %}
+  <hr>
 
-  <img src="{% url 'cover:image_generator' %}" alt="">
 {% endblock %}
-
-
-
