@@ -1,7 +1,15 @@
 {% extends 'cover/layout.html' %}
 
 {% block content %}
-  hello world
+  <form action="" method="post">
+    {% csrf_token %}
+    <table>
+      {{ form }}
+    </table>
+    <input type="submit" value="Generate O RLY">
+  </form>
+
+  <img src="{% url 'cover:image_generator' %}" alt="">
 {% endblock %}
 
 

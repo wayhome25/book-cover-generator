@@ -6,4 +6,5 @@ app_name = 'cover'
 
 urlpatterns = [
     path('index/', views.index, name='index'),
+    path('image.jpg/', views.image_generator, name='image_generator')
 ]
