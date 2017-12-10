@@ -3,3 +3,4 @@ db.sqlite3
 staticfiles
 mediafiles
 .idea/
+.ipynb_checkpoints/
