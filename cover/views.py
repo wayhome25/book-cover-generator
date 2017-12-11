@@ -31,27 +31,37 @@ def image_generator(request):
 
     animal_path = settings.ROOT('assets', 'animal', '{}.png'.format(animal_code))
     animal_im = Image.open(animal_path)
-    animal_im = animal_im.resize((300, 300))
+    animal_im = animal_im.resize((400, 400))
 
     color = COLOR_CODE[int(color_index)]
 
-    canvas_im = Image.new('RGB', (500, 700), color)
-    canvas_im.paste(animal_im, (0, 0))
+    canvas_im = Image.new('RGB', (500, 700), (255, 255, 255, 255))
+    canvas_im.paste(animal_im, (50, 40))
 
     ttf_path = settings.ROOT('assets', 'fonts', 'NanumGothicCoding.ttf')  # get a font
-    d = ImageDraw.Draw(canvas_im)  # get a drawing context
+    draw = ImageDraw.Draw(canvas_im)  # get a drawing context
 
-    fnt = ImageFont.truetype(ttf_path, 40)
-    d.text((10, 10), title, font=fnt, fill=(0, 255, 0, 255))
+    # rectangle_top
+    draw.rectangle([20, 0, 480, 10], fill=color)
 
+    # rectangle_middle
+    draw.rectangle([20, 400, 480, 510], fill=color)
+
+    # Title
+    fnt = ImageFont.truetype(ttf_path, 70)
+    draw.text((45, 430), title, font=fnt, fill=(255, 255, 255, 255))
+
+    # Top text
     fnt = ImageFont.truetype(ttf_path, 20)
-    d.text((10, 60), top_text, font=fnt, fill=(0, 255, 0, 255))
+    draw.text((160, 13), top_text, font=fnt, fill=(0, 0, 0, 255))
 
-    fnt = ImageFont.truetype(ttf_path, 10)
-    d.text((10, 110), author, font=fnt, fill=(0, 255, 0, 255))
+    # Author
+    fnt = ImageFont.truetype(ttf_path, 25)
+    draw.text((360, 655), author, font=fnt, fill=(0, 0, 0, 255))
 
-    fnt = ImageFont.truetype(ttf_path, 10)
-    d.text((10, 130), guide_text, font=fnt, fill=(0, 255, 0, 255))
+    # guide_text
+    fnt = ImageFont.truetype(ttf_path, 25)
+    draw.text((140, 510), guide_text, font=fnt, fill=(0, 0, 0, 255))
 
     response = HttpResponse(content_type='image/png')
     canvas_im.save(response, format='PNG')
